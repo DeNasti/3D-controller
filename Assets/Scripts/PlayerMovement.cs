@@ -49,23 +49,27 @@ public class PlayerMovement : MonoBehaviour {
 	}	
 
 	void MovePlayer(){
-		
+
+		// RUNNING
 		int runMultiplaier=1; //is set to 1 so if the player is not running, the 
 
 		if (sprinting && stats.currentStamina >= 0) {
 			runMultiplaier = 4;
 			stats.currentStamina -= 8 * Time.deltaTime;
 		}
-		
+
+		//WALKING OR RUNNING
 		movementVector = new Vector3 (hz * moveSpeed, movementVector.y, vrt * moveSpeed * runMultiplaier);
 		movementVector = Quaternion.LookRotation (cameraRig.forward) * movementVector;
 
+		//JUMPING
 		if(charController.isGrounded)
 			if(Input.GetButtonDown("Jump"))
 				movementVector.y = jumpForce;
 
 		movementVector.y += (Physics.gravity.y * gravityScale);
-
+	
+		
 		charController.Move(movementVector*Time.deltaTime);
 	}
 
