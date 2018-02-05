@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 	public  Transform cameraRig;
 	public  Transform player;
 
-	public float minCameraDistance = 4f;
+	public float minCameraDistance = 0f;
 	public float maxCameraDistance = 10f;
 	
 	private Camera thisCamera;
@@ -42,6 +42,7 @@ public class CameraController : MonoBehaviour {
 		//i use an array of 4 point, then i pass it to a function that returns the first time the raycast finds the obstacle.
 		//so in the best case scenario i have to do only 1 controll, and ONLY in the worse 5.
 
+
 		bool moved = false;
 
 		if (Vector3.Distance (cameraRig.position, transform.position) > minCameraDistance) {//but only if i'm not yet too close
@@ -68,8 +69,9 @@ public class CameraController : MonoBehaviour {
 
 
 			for (int i = 0; i < 5; i++) {
-				if (checkIfThereIsObstacle (points [i], player.position)) { //if there is an obstacle between the point of the camera and the player
-					translateCamera (thisCamera.transform.forward /*multiplied per distance?*/);
+				float distanceFromObstacle = 1;
+				if (checkIfThereIsObstacle (points [i], player.position, out distanceFromObstacle)) { //if there is an obstacle between the point of the camera and the player
+					translateCamera (thisCamera.transform.forward * distanceFromObstacle, 100f);
 					moved = true;
 					break;
 				}
@@ -78,26 +80,30 @@ public class CameraController : MonoBehaviour {
 
 		if (!moved) {//if the camera was not moved forward i go back to the starting distance
 			if(Vector3.Distance(cameraRig.position, transform.position) < maxCameraDistance)//but only if i'm not yet at the proper distance
-				translateCamera(-thisCamera.transform.forward);
+				translateCamera(-thisCamera.transform.forward, 1f);
 		}
 			
 		currentDistance = Vector3.Distance (cameraRig.position, transform.position);
 	}
 
-	bool checkIfThereIsObstacle(Vector3 startingPoint, Vector3 target){
+	bool checkIfThereIsObstacle(Vector3 startingPoint, Vector3 target, out float distanceFromObstacle){
 		RaycastHit hit;
+		distanceFromObstacle = 1;
 
-		if (Physics.Raycast (startingPoint, target, out hit, maxCameraDistance)) {//i shoot my raycast
-			if(hit.collider.gameObject.tag != "Player"){ // if i hit something that is not the player
-				return true; //i return true
+		if (Physics.Raycast (startingPoint, target, out hit, maxCameraDistance * 2)) {//i shoot my raycast
+			if (hit.collider.gameObject.tag != "Player") { // if i hit something that is not the player
+				//if(hit.distance > 1)
+					distanceFromObstacle = hit.distance;//collider.gameObject.gameObject.transform.position, thisCamera.transform.position);
+				
+				Debug.Log ("the raycast hit an object that is not our player");
+				return true; //I return true
 			}
 		}
-
-		return false;
+			return false;
 	}
 
-	void translateCamera(Vector3 destination){
-		thisCamera.transform.position = Vector3.Lerp(thisCamera.transform.position, thisCamera.transform.position + destination , Time.deltaTime * 10);
+	void translateCamera(Vector3 destination, float tranlationSpeed){
+		thisCamera.transform.position = Vector3.Lerp(thisCamera.transform.position, thisCamera.transform.position + destination , Time.deltaTime*tranlationSpeed);
 	}
 
 

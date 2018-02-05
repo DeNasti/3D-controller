@@ -32,12 +32,6 @@ public class PlayerMovement : MonoBehaviour {
 		 hz = Input.GetAxisRaw ("Horizontal");
 		 vrt = Input.GetAxisRaw ("Vertical");
 	
-		//started sprinting
-		if(Input.GetButtonDown("Fire3"))		//fire3 is LShift on pc
-			sprinting = true;
-
-			else if(Input.GetButtonUp("Fire3"))
-				sprinting = false;
 
 		MovePlayer ();
 
@@ -46,9 +40,27 @@ public class PlayerMovement : MonoBehaviour {
 
 		 else
 			animator.SetFloat ("SpeedPercent", 0, .1f, Time.deltaTime);
+
+		combat ();
 	}	
 
+	void combat(){
+		if (Input.GetButtonDown ("Fire1"))
+			if (stats.currentStamina > 50) {
+			
+				stats.currentStamina -= 50;
+				animator.SetTrigger ("Attack");
+			}		
+	}
+
 	void MovePlayer(){
+
+		//started sprinting
+		if(Input.GetButtonDown("Fire3"))		//fire3 is LShift on pc
+			sprinting = true;
+
+		else if(Input.GetButtonUp("Fire3"))
+			sprinting = false;
 
 		// RUNNING
 		int runMultiplaier=1; //is set to 1 so if the player is not running, the 
