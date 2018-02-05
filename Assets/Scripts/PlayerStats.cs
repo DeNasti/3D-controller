@@ -14,6 +14,8 @@ public class PlayerStats : MonoBehaviour {
 
 	public float staminaRegen = 2f; //how many stamina points are regenered per second
 
+	public float damageOutput = 6f;
+
 	public Slider healtSlider;
 	public Slider StaminaSlider;
 

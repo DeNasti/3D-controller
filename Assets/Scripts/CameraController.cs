@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
+	public bool betterCamera = false;
+
 	public float currentDistance;
 
 	public float horizontalSensibility = 5f;
@@ -33,7 +35,8 @@ public class CameraController : MonoBehaviour {
 
 		//to avoid the camera is inside something, i have to take the 4 angles of the nearClipPlane, shoot a raycast to the center of the camera
 		//and if it intersect an obstacle, just take the camera closer.
-		handleDistance();
+		if(betterCamera)
+			handleDistance();
 	}
 
 	void handleDistance(){
