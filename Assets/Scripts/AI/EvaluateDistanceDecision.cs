@@ -19,6 +19,7 @@ public class EvaluateDistanceDecision : Decision {
 
 		if (Vector3.Distance (controller.transform.position, controller.player.position) <= meleeRangeDistance)
 			return true;
+	
 		else
 			return false;	
 	}

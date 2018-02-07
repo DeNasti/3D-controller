@@ -5,3 +5,7 @@ Currently the movement is implemented with a CharacterController (instead of the
 
 every asset in game is self made, the AI is based on the PluggableAI tutorial by unity ( https://youtu.be/cHUXh5biQMg )
 
+<p align="center"> <img src="/screenshots/campFire001.jpg"> </p>
+
+
+
