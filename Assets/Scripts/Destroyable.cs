@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destroyable : MonoBehaviour {
+public class Destroyable : Hittable {
 
 	public float hp = 3;
 	public GameObject destroyedVersion;
 
-		void OnTriggerEnter (Collider col) {
-		Debug.Log ("trigger enter: " + col.tag);
+	public override void hit(float damage){
 
-		if(col.tag == Tags.sword){
-			PlayerStats s = col.gameObject.transform.root.gameObject.GetComponent<PlayerStats>();
-			hp -= s.damageOutput;
-		}
-		
+		hp -= damage;
+
 		if (hp <= 0) {
 			GameObject.Instantiate (destroyedVersion, transform.position, transform.rotation);
 			Destroy (this.gameObject);
 		}
 	}
+
+	void OnCollisionEnter (Collision col) {
+		Debug.Log ("VASE collider enter: " + col.collider.tag);
+	}	
+
+	void OnTriggerEnter (Collider col) {
+		Debug.Log ("VASE enter: " + col.tag);
+
+	}
+
+
+
 }
