@@ -29,7 +29,6 @@ public class LookDecision : Decision {
 				}
 			}
 		}
-		Debug.Log ("returning false");
 
 		return false;	}
 }

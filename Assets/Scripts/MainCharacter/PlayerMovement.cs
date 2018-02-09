@@ -6,8 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
 	public Transform cameraRig;
-	public Animator animator;
-	private PlayerStats stats;
+	public PlayerStats stats;
 
 	public float jumpForce = 3f;
 	public float moveSpeed = 4f;
@@ -39,19 +38,9 @@ public class PlayerMovement : MonoBehaviour {
 			MoveModel ();
 
 		 else
-			animator.SetFloat ("SpeedPercent", 0, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("SpeedPercent", 0, .1f, Time.deltaTime);
 
-		combat ();
 	}	
-
-	void combat(){
-		if (Input.GetButtonDown ("Fire1"))
-			if (stats.currentStamina > 50) {
-			
-				stats.currentStamina -= 50;
-				animator.SetTrigger ("Attack");
-			}		
-	}
 
 	void MovePlayer(){
 
@@ -89,9 +78,9 @@ public class PlayerMovement : MonoBehaviour {
 		//the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
 
 		if (sprinting && stats.currentStamina >= 0)	//if the player is sprinting, set the proper animation
-			animator.SetFloat ("SpeedPercent", 1f, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("SpeedPercent", 1f, .1f, Time.deltaTime);
 
-		else animator.SetFloat ("SpeedPercent", .5f, .1f, Time.deltaTime);	//else use the working animation
+		else stats.animator.SetFloat ("SpeedPercent", .5f, .1f, Time.deltaTime);	//else use the working animation
 
 		//Vector3 actualRotation = Mathf.LerpAngle(playerBody.rotation.eulerAngles,cameraRig.forward, .4 );
 		playerBody.rotation = Quaternion.RotateTowards(playerBody.rotation, cameraRig.rotation, 300f*Time.deltaTime);

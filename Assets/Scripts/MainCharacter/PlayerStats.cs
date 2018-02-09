@@ -16,9 +16,12 @@ public class PlayerStats : MonoBehaviour {
 
 	public float damageOutput = 6f;
 
+	public float staminaForAttack = 20f;
+
 	public Slider healtSlider;
 	public Slider StaminaSlider;
 
+	public Animator animator;
 
 	void Start(){
 		healtSlider.maxValue = maxHp;
