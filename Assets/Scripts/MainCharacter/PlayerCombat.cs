@@ -18,12 +18,15 @@ public class PlayerCombat : MonoBehaviour {
 
 
 	void Combat(){
-		if (Input.GetButtonDown ("Fire1"))
-		if (stats.currentStamina > stats.staminaForAttack ) {
+		if (Input.GetButtonDown ("Fire1")  && !IsPlayingAttackAnimation())
+			if (stats.currentStamina > stats.staminaForAttack ) {
 
-			stats.currentStamina -= stats.staminaForAttack ;
-			stats.animator.SetTrigger ("Attack");
-		}		
+				stats.currentStamina -= stats.staminaForAttack ;
+				stats.animator.SetTrigger ("Attack");
+			}		
 	}
 
+	bool IsPlayingAttackAnimation(){
+		return (stats.animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack") || stats.animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack2"));
+	}
 }
