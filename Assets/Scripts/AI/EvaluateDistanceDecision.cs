@@ -8,7 +8,7 @@ public class EvaluateDistanceDecision : Decision {
 
 	public LayerMask viewMask; //to set in the inspector
 
-	private float meleeRangeDistance = 4f; // for now hardcoded
+	public float meleeRangeDistance = 4f; // for now hardcoded
 
 
 	public override bool Decide(StateController controller){

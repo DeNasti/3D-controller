@@ -10,6 +10,8 @@ public class AttackAction : AbstractAction{
 	}
 
 	private void Attack(StateController controller){
+		if(!controller.navMeshAgent.isStopped)
+			controller.navMeshAgent.isStopped = true;
 		/*
 		 RaycastHit hit;
 		 
@@ -20,6 +22,7 @@ public class AttackAction : AbstractAction{
 			if (controller.CheckIfCountdownElapsed (controller.guardStats.attackRate)) {
 				//controller.guardShooting.Fire (controller.eyes);
 				Debug.Log ("boom");
+				\
 			}
 		}*/
 			

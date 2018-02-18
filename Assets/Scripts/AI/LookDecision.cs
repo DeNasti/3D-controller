@@ -18,10 +18,10 @@ public class LookDecision : Decision {
 
 		if(Vector3.Distance(controller.transform.position, controller.player.position) < controller.viewDistance){
 			Vector3 dirToPlayer = (controller.player.position - controller.transform.position).normalized;
-			float angleBetweenGuardAndPlayer = Vector3.Angle (controller.transform.forward, dirToPlayer);
+			float angleBetweenGuardAndPlayer = Vector3.Angle (controller.eyes.transform.forward, dirToPlayer);
 
 			if (angleBetweenGuardAndPlayer < viewAngle / 2f) {
-				if (!Physics.Linecast (controller.transform.position, controller.player.position, viewMask)) {
+				if (!Physics.Linecast (controller.eyes.transform.position, controller.player.position, viewMask)) {
 					//controller.chaseTarget = player.position (?)
 
 					Debug.Log ("returning true");

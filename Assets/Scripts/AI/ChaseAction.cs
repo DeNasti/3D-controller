@@ -11,6 +11,7 @@ public class ChaseAction : AbstractAction {
 
 	private void Chase(StateController controller){
 		controller.navMeshAgent.destination = controller.player.position;
+	if(controller.navMeshAgent.isStopped)
 		controller.navMeshAgent.isStopped = false;
 	}
 
