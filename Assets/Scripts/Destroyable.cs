@@ -17,15 +17,6 @@ public class Destroyable : Hittable {
 		}
 	}
 
-	void OnCollisionEnter (Collision col) {
-		Debug.Log ("VASE collider enter: " + col.collider.tag);
-	}	
-
-	void OnTriggerEnter (Collider col) {
-		Debug.Log ("VASE enter: " + col.tag);
-
-	}
-
 
 
 }

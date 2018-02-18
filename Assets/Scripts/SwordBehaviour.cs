@@ -20,5 +20,4 @@ public class SwordBehaviour : MonoBehaviour {
 				h.hit (stats.damageOutput);
 		}
 	}
-
 }
