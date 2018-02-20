@@ -34,11 +34,12 @@ public class PlayerMovement : MonoBehaviour {
 
 		MovePlayer ();
 
-		if (hz != 0 || vrt != 0) 
+		if (hz != 0 || vrt != 0)
 			MoveModel ();
-
-		 else
-			stats.animator.SetFloat ("SpeedPercent", 0, .1f, Time.deltaTime);
+		else {
+			stats.animator.SetFloat ("Forward", 0, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("Lateral", 0, .1f, Time.deltaTime);
+		}
 
 	}	
 
@@ -57,6 +58,10 @@ public class PlayerMovement : MonoBehaviour {
 		if (sprinting && stats.currentStamina >= 0) {
 			runMultiplaier = 4;
 			stats.currentStamina -= 8 * Time.deltaTime;
+			hz = 0;
+
+			if (vrt <= 0)
+				vrt = 0;
 		}
 
 		//WALKING OR RUNNING
@@ -74,17 +79,22 @@ public class PlayerMovement : MonoBehaviour {
 		charController.Move(movementVector*Time.deltaTime);
 	}
 
-	void MoveModel(){
+	void MoveModel ()
+	{
 		//the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
 
 		if (sprinting && stats.currentStamina >= 0)	//if the player is sprinting, set the proper animation
-			stats.animator.SetFloat ("SpeedPercent", 1f, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("Forward", 2f, .1f, Time.deltaTime);
+		
 
-		else stats.animator.SetFloat ("SpeedPercent", .5f, .1f, Time.deltaTime);	//else use the working animation
+		else {
+			stats.animator.SetFloat ("Forward", vrt, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("Lateral", hz, .1f, Time.deltaTime);
+			}
 
 		//Vector3 actualRotation = Mathf.LerpAngle(playerBody.rotation.eulerAngles,cameraRig.forward, .4 );
-		playerBody.rotation = Quaternion.RotateTowards(playerBody.rotation, cameraRig.rotation, 300f*Time.deltaTime);
-	
+		playerBody.rotation = Quaternion.RotateTowards (playerBody.rotation, cameraRig.rotation, 300f * Time.deltaTime);
+
+
 	}
-		
 }

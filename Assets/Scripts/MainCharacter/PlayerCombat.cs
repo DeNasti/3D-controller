@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour {
 
 	public PlayerStats stats;
-	bool attack1, attack2;
 	// Use this for initialization
 	void Start () {
 		stats = GetComponent<PlayerStats> ();
@@ -30,7 +29,6 @@ public class PlayerCombat : MonoBehaviour {
 				if (!IsPlayingAttackAnimation ()) {		//if no attack is being played, do the first of the combo
 					stats.currentStamina -= stats.staminaForAttack;
 					stats.animator.SetTrigger ("Attack");
-					attack1 = true;
 				}
 			/*	else if (stats.animator.GetCurrentAnimatorStateInfo (0).IsName ("Attack")) {		//if the first attack is being played, activate the second one
 					Debug.Log("here");
