@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour {
 		//the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
 
 		if (sprinting && stats.currentStamina >= 0)	//if the player is sprinting, set the proper animation
-			stats.animator.SetFloat ("Forward", 2f, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("Forward", 1.5f, .1f, Time.deltaTime);
 		
 
 		else {

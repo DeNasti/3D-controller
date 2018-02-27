@@ -12,7 +12,7 @@ public class SwordBehaviour : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider col) {
-		Debug.Log (" enter: " + col.tag);
+		//Debug.Log (" enter: " + col.tag);
 
 		Hittable h = col.gameObject.GetComponent<Hittable> ();
 		if(stats.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") || stats.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2") ){
