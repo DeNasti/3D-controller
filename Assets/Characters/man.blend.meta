@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e6f6bd53dce97b84aaf04bba5b7a7a10
-timeCreated: 1518975632
+timeCreated: 1520332992
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -92,11 +92,12 @@ ModelImporter:
     7400002: Attack
     7400004: Attack2
     7400006: Defend
-    7400008: Idle
-    7400010: Run
-    7400012: Walk
-    7400014: walkLeft
-    7400016: walkRight
+    7400008: Defend_walkLateral
+    7400010: Idle
+    7400012: Run
+    7400014: Walk
+    7400016: Walk_Defend
+    7400018: walkLateral
     9500000: //RootNode
     13700000: body
     13700002: chestplate
@@ -241,6 +242,34 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Defend_walkLateral
+      takeName: Defend_walkLateral
+      firstFrame: -1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Idle
       takeName: Idle
       firstFrame: 0
@@ -325,9 +354,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: walkLeft
-      takeName: walkLeft
-      firstFrame: -1
+      name: Walk_Defend
+      takeName: Walk_Defend
+      firstFrame: 0
       lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
@@ -353,8 +382,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: walkRight
-      takeName: walkRight
+      name: walkLateral
+      takeName: walkLateral
       firstFrame: -1
       lastFrame: 24
       wrapMode: 0

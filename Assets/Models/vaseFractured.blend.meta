@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: c6901780fd7d560448ce2e6b512d6b8f
-timeCreated: 1517838148
+timeCreated: 1520339442
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -79,6 +79,7 @@ ModelImporter:
     400068: Cylinder_cell_014_cell_006
     400070: Cylinder_cell_014_cell_007
     400072: //RootNode
+    2100000: vaseMaterial
     2300000: Cylinder_cell
     2300002: Cylinder_cell_001
     2300004: Cylinder_cell_002
@@ -189,17 +190,12 @@ ModelImporter:
     4300070: Cylinder_cell
     7400000: Default Take
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: vaseMaterial
-    second: {fileID: 2100000, guid: edb7c2fe65a6be44dbd7f3b32decc1e4, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -237,6 +233,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

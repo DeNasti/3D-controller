@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b5328f66ebd34cb4aa2fdf96d5ad7639
-timeCreated: 1517843833
+timeCreated: 1520339475
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -11,6 +11,8 @@ ModelImporter:
     400000: //RootNode
     400002: Rocks
     400004: wood
+    2100000: rocks
+    2100002: wood
     2300000: Rocks
     2300002: wood
     3300000: Rocks
@@ -19,22 +21,12 @@ ModelImporter:
     4300002: wood
     7400000: Default Take
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: rocks
-    second: {fileID: 2100000, guid: f6c76d5cfaf7c274aa31d6a1a1316bb0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: wood
-    second: {fileID: 2100000, guid: 5d0ddbb37ac65c4459624750dc60ec1f, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -72,6 +64,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
