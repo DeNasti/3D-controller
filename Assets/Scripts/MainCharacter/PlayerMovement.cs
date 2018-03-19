@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(CharacterController))]
+[RequireComponent (typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour {
 
 	public Transform cameraRig;
@@ -13,7 +14,8 @@ public class PlayerMovement : MonoBehaviour {
 	public float gravityScale = 1f;
 	public bool sprinting;
 
-	private CharacterController charController;
+    //private CharacterController charController;       ---character controller removed, now physic based movement
+    private Rigidbody rb;
 	private Vector3 movementVector;
 	private Transform playerBody;
 	float hz;
@@ -21,24 +23,23 @@ public class PlayerMovement : MonoBehaviour {
 
 
 	void Start (){
-		charController = GetComponent<CharacterController> ();
+        rb = GetComponent<Rigidbody> ();
 		playerBody = transform.GetChild (0).GetComponent<Transform> ();
 		stats = GetComponent<PlayerStats> ();
 
 	}
 
-	void Update () {
-		 hz = Input.GetAxisRaw ("Horizontal");
-		 vrt = Input.GetAxisRaw ("Vertical");
+	void FixedUpdate () {
+		hz = Input.GetAxisRaw ("Horizontal");
+	    vrt = Input.GetAxisRaw ("Vertical");
 	
-
 		MovePlayer ();
 
 		if (hz != 0 || vrt != 0)
-			MoveModel ();
+            AnimatePlayer();
 		else {
-			stats.animator.SetFloat ("Forward", 0, .1f, Time.deltaTime);
-			stats.animator.SetFloat ("Lateral", 0, .1f, Time.deltaTime);
+			stats.animator.SetFloat ("Forward", 0, .1f, Time.fixedDeltaTime);
+			stats.animator.SetFloat ("Lateral", 0, .1f, Time.fixedDeltaTime);
 		}
 
 	}	
@@ -68,18 +69,21 @@ public class PlayerMovement : MonoBehaviour {
 		movementVector = new Vector3 (hz * moveSpeed, movementVector.y, vrt * moveSpeed * runMultiplaier);
 		movementVector = Quaternion.LookRotation (cameraRig.forward) * movementVector;
 
-		//JUMPING
-		if(charController.isGrounded)
-			if(Input.GetButtonDown("Jump"))
-				movementVector.y = jumpForce;
+        //JUMPING
+        if (Input.GetButtonDown("Jump"))
+            if (isGrounded()) // have to check if rigidbody is grounded
+                rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
 
-		movementVector.y += (Physics.gravity.y * gravityScale);
-	
-		
-		charController.Move(movementVector*Time.deltaTime);
+        rb.AddForce(movementVector*Time.fixedDeltaTime, ForceMode.Impulse);
+		//charController.Move(movementVector*Time.deltaTime);
 	}
 
-	void MoveModel ()
+    private bool isGrounded()
+    {
+        return true;
+    }
+
+    void AnimatePlayer ()
 	{
 		//the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
 
