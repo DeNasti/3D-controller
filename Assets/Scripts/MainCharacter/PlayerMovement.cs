@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent (typeof (Rigidbody))]
 public class PlayerMovement : MonoBehaviour {
 
 	public Transform cameraRig;
@@ -13,92 +13,101 @@ public class PlayerMovement : MonoBehaviour {
 	public float moveSpeed = 4f;
 	public float gravityScale = 1f;
 	public bool sprinting;
+    public float rotationSpeed = 10f;
 
-    //private CharacterController charController;       ---character controller removed, now physic based movement
     private Rigidbody rb;
 	private Vector3 movementVector;
 	private Transform playerBody;
 	float hz;
 	float vrt;
+    Vector3 rot;
 
-
-	void Start (){
-        rb = GetComponent<Rigidbody> ();
+    void Start ()
+    {
+		rb = GetComponent<Rigidbody> ();
 		playerBody = transform.GetChild (0).GetComponent<Transform> ();
 		stats = GetComponent<PlayerStats> ();
 
 	}
 
-	void FixedUpdate () {
-		hz = Input.GetAxisRaw ("Horizontal");
-	    vrt = Input.GetAxisRaw ("Vertical");
-	
+	void Update ()
+    {
+		hz = Input.GetAxis ("Horizontal");
+		vrt = Input.GetAxis ("Vertical");
+    }
+
+	void FixedUpdate ()
+    {
+
 		MovePlayer ();
-
-		if (hz != 0 || vrt != 0)
+        RotatePlayer();
+        if (hz != 0 || vrt != 0)
+        {
             AnimatePlayer();
-		else {
-			stats.animator.SetFloat ("Forward", 0, .1f, Time.fixedDeltaTime);
-			stats.animator.SetFloat ("Lateral", 0, .1f, Time.fixedDeltaTime);
-		}
+        }
+        else
+        {
+            stats.animator.SetFloat("Forward", 0, .1f, Time.fixedDeltaTime);
+        }
+	}
 
-	}	
 
-	void MovePlayer(){
-
-		//started sprinting
-		if(Input.GetButtonDown("Fire3"))		//fire3 is LShift on pc
-			sprinting = true;
-
-		else if(Input.GetButtonUp("Fire3"))
-			sprinting = false;
-
-		// RUNNING
-		int runMultiplaier=1; //is set to 1 so if the player is not running, the 
-
-		if (sprinting && stats.currentStamina >= 0) {
-			runMultiplaier = 4;
-			stats.currentStamina -= 8 * Time.deltaTime;
-			hz = 0;
-
-			if (vrt <= 0)
-				vrt = 0;
-		}
-
-		//WALKING OR RUNNING
-		movementVector = new Vector3 (hz * moveSpeed, movementVector.y, vrt * moveSpeed * runMultiplaier);
-		movementVector = Quaternion.LookRotation (cameraRig.forward) * movementVector;
+    void MovePlayer ()
+    {
+        movementVector = new Vector3 (hz , 0, vrt ) * moveSpeed;
+		movementVector = Quaternion.LookRotation(cameraRig.forward, Vector3.up) * movementVector;
 
         //JUMPING
         if (Input.GetButtonDown("Jump"))
+        {
             if (isGrounded()) // have to check if rigidbody is grounded
-                rb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-
-        rb.AddForce(movementVector*Time.fixedDeltaTime, ForceMode.Impulse);
-		//charController.Move(movementVector*Time.deltaTime);
-	}
-
-    private bool isGrounded()
-    {
-        return true;
+            {
+                movementVector.y = jumpForce;
+            }
+        }
+        rb.AddForce(movementVector * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
-    void AnimatePlayer ()
-	{
-		//the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
+    private void RotatePlayer()
+    {
+        //i get the pad angle
+        var angle = Mathf.Rad2Deg * Mathf.Atan2(hz, vrt);
 
-		if (sprinting && stats.currentStamina >= 0)	//if the player is sprinting, set the proper animation
-			stats.animator.SetFloat ("Forward", 1.5f, .1f, Time.deltaTime);
-		
+        //i add it to the camera angle
+        angle += cameraRig.transform.eulerAngles.y;
 
-		else {
-			stats.animator.SetFloat ("Forward", vrt, .1f, Time.deltaTime);
-			stats.animator.SetFloat ("Lateral", hz, .1f, Time.deltaTime);
-			}
+        //i get correct angle with the rest of the division for 360
+        angle = angle % 360;
 
-		//Vector3 actualRotation = Mathf.LerpAngle(playerBody.rotation.eulerAngles,cameraRig.forward, .4 );
-		playerBody.rotation = Quaternion.RotateTowards (playerBody.rotation, cameraRig.rotation, 300f * Time.deltaTime);
+        //i lerp it
+        angle = Mathf.LerpAngle(angle, playerBody.eulerAngles.y, Time.fixedDeltaTime / rotationSpeed);
 
+        //i rotate the character only if there is any axis input 
+        if (hz != 0 || vrt != 0)
+        {
+            playerBody.eulerAngles = new Vector3(playerBody.eulerAngles.x, angle, playerBody.eulerAngles.z);
+        }
+    }
+
+
+    private bool isGrounded ()
+    {
+		return true;
+	}
+
+	void AnimatePlayer ()
+    {
+        //the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
+
+        if (sprinting && stats.currentStamina >= 0) //if the player is sprinting, set the proper animation
+        {
+            stats.animator.SetFloat("Forward", 1.5f, .1f, Time.deltaTime);
+        }
+
+        else
+        {
+            stats.animator.SetFloat("Forward", 1, .1f, Time.deltaTime);
+        }
 
 	}
 }
