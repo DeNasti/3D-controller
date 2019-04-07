@@ -7,9 +7,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
 	public Transform cameraRig;
-	public PlayerStats stats;
+    public Animator animator;
 
-	public float jumpForce = 3f;
+
+    public float jumpForce = 3f;
 	public float moveSpeed = 4f;
 	public bool sprinting;
     public float rotationSpeed = 10f;
@@ -31,9 +32,7 @@ public class PlayerMovement : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
         //	playerBody = transform.GetChild (0).GetComponent<Transform> ();
         playerBody = transform;
-        stats = GetComponent<PlayerStats> ();
         _jump = false;
-
     }
 
 	void Update ()
@@ -64,7 +63,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
-            stats.animator.SetFloat("Forward", 0, .1f, Time.fixedDeltaTime);
+            animator.SetFloat("Forward", 0, .1f, Time.fixedDeltaTime);
         }
 	}
 
@@ -128,11 +127,10 @@ public class PlayerMovement : MonoBehaviour {
         //the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
         if (_isMovingHorizontally && _isGrounded)
         {
-            stats.animator.SetFloat("Forward", 1, .1f, Time.deltaTime);
+            animator.SetFloat("Forward", 1, .1f, Time.deltaTime);
         }
 
-        else stats.animator.SetFloat("Forward", 0, .1f, Time.deltaTime);
-
+        else animator.SetFloat("Forward", 0, .1f, Time.deltaTime);
     }
 
 }

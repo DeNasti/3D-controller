@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour {
 	public Slider healtSlider;
 	public Slider StaminaSlider;
 
-	public Animator animator;
 
 	void Start(){
 		healtSlider.maxValue = maxHp;
