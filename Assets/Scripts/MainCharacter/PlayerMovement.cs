@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour {
 	float hz;
 	float vrt;
     Vector3 rot;
-
+    float angle;
     void Start ()
     {
 		rb = GetComponent<Rigidbody> ();
@@ -38,9 +38,14 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate ()
     {
-
-		MovePlayer ();
+        //first i rotate 
         RotatePlayer();
+        //then i move in the direction the player is facing
+		MovePlayer ();
+
+        //i try to jump
+        Jump();
+
         if (hz != 0 || vrt != 0)
         {
             AnimatePlayer();
@@ -52,26 +57,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 
-    void MovePlayer ()
-    {
-        movementVector = new Vector3 (hz , 0, vrt ) * moveSpeed;
-		movementVector = Quaternion.LookRotation(cameraRig.forward, Vector3.up) * movementVector;
-
-        //JUMPING
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isGrounded()) // have to check if rigidbody is grounded
-            {
-                movementVector.y = jumpForce;
-            }
-        }
-        rb.AddForce(movementVector * Time.fixedDeltaTime, ForceMode.Impulse);
-    }
 
     private void RotatePlayer()
     {
         //i get the pad angle
-        var angle = Mathf.Rad2Deg * Mathf.Atan2(hz, vrt);
+        angle = Mathf.Rad2Deg * Mathf.Atan2(hz, vrt);
 
         //i add it to the camera angle
         angle += cameraRig.transform.eulerAngles.y;
@@ -89,7 +79,26 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    void MovePlayer ()
+    {
+        if (hz != 0 || vrt != 0)
+        {
+            rb.AddForce(playerBody.transform.forward * moveSpeed * Time.fixedDeltaTime, ForceMode.Impulse);
+        }
+    }
 
+    void Jump() {
+
+        //JUMPING
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded()) // have to check if rigidbody is grounded
+            {
+              //  movementVector.y = jumpForce * 10;
+                rb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
+            }
+        }
+    }
     private bool isGrounded ()
     {
 		return true;
@@ -108,6 +117,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             stats.animator.SetFloat("Forward", 1, .1f, Time.deltaTime);
         }
-
 	}
+
 }
