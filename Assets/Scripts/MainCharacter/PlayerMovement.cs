@@ -11,33 +11,45 @@ public class PlayerMovement : MonoBehaviour {
 
 	public float jumpForce = 3f;
 	public float moveSpeed = 4f;
-	public float gravityScale = 1f;
 	public bool sprinting;
     public float rotationSpeed = 10f;
+    public float raycastDistanceForGround = 2;
 
     private Rigidbody rb;
 	private Vector3 movementVector;
 	private Transform playerBody;
 	float hz;
 	float vrt;
+    private bool _jump;
+    private bool _isGrounded;
+    private bool _isMovingHorizontally;
     Vector3 rot;
     float angle;
+
     void Start ()
     {
 		rb = GetComponent<Rigidbody> ();
-		playerBody = transform.GetChild (0).GetComponent<Transform> ();
-		stats = GetComponent<PlayerStats> ();
+        //	playerBody = transform.GetChild (0).GetComponent<Transform> ();
+        playerBody = transform;
+        stats = GetComponent<PlayerStats> ();
+        _jump = false;
 
-	}
+    }
 
 	void Update ()
     {
-		hz = Input.GetAxis ("Horizontal");
-		vrt = Input.GetAxis ("Vertical");
+		hz = Input.GetAxisRaw ("Horizontal");
+		vrt = Input.GetAxisRaw ("Vertical");
+
+        if (Input.GetButtonDown("Jump"))
+            _jump = true;
     }
 
-	void FixedUpdate ()
+    void FixedUpdate ()
     {
+
+        IsGrounded();
+
         //first i rotate 
         RotatePlayer();
         //then i move in the direction the player is facing
@@ -67,7 +79,7 @@ public class PlayerMovement : MonoBehaviour {
         angle += cameraRig.transform.eulerAngles.y;
 
         //i get correct angle with the rest of the division for 360
-        angle = angle % 360;
+        angle %= 360;
 
         //i lerp it
         angle = Mathf.LerpAngle(angle, playerBody.eulerAngles.y, Time.fixedDeltaTime / rotationSpeed);
@@ -75,48 +87,52 @@ public class PlayerMovement : MonoBehaviour {
         //i rotate the character only if there is any axis input 
         if (hz != 0 || vrt != 0)
         {
+            _isMovingHorizontally = true;
             playerBody.eulerAngles = new Vector3(playerBody.eulerAngles.x, angle, playerBody.eulerAngles.z);
         }
+        else _isMovingHorizontally = false;
+
     }
 
     void MovePlayer ()
     {
         if (hz != 0 || vrt != 0)
         {
-            rb.AddForce(playerBody.transform.forward * moveSpeed * Time.fixedDeltaTime, ForceMode.Impulse);
+            var moveVector = (playerBody.transform.forward * moveSpeed * Time.fixedDeltaTime);
+//            rb.AddForce(moveVector, ForceMode.Impulse);
+            rb.MovePosition(transform.position + moveVector);
         }
     }
 
     void Jump() {
 
         //JUMPING
-        if (Input.GetButtonDown("Jump"))
+        if (_jump)
         {
-            if (isGrounded()) // have to check if rigidbody is grounded
+            if (_isGrounded) // have to check if rigidbody is grounded
             {
-              //  movementVector.y = jumpForce * 10;
-                rb.AddForce(Vector3.up * jumpForce , ForceMode.Impulse);
+                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
+            _jump = false;
         }
     }
-    private bool isGrounded ()
+    private void IsGrounded()
     {
-		return true;
-	}
+        var center = playerBody.position + Vector3.up;
+
+        _isGrounded = (Physics.Raycast(center, Vector3.down, raycastDistanceForGround));
+    }
 
 	void AnimatePlayer ()
     {
         //the animations are handled throught a blend three: higher is the speed (set with set float) closer the player would be to a running animation.
-
-        if (sprinting && stats.currentStamina >= 0) //if the player is sprinting, set the proper animation
-        {
-            stats.animator.SetFloat("Forward", 1.5f, .1f, Time.deltaTime);
-        }
-
-        else
+        if (_isMovingHorizontally && _isGrounded)
         {
             stats.animator.SetFloat("Forward", 1, .1f, Time.deltaTime);
         }
-	}
+
+        else stats.animator.SetFloat("Forward", 0, .1f, Time.deltaTime);
+
+    }
 
 }
