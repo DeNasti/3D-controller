@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c6901780fd7d560448ce2e6b512d6b8f
+guid: 7caa49532065eb7488df9242d99b8edf
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -188,7 +188,6 @@ ModelImporter:
     4300070: Cylinder_cell
     7400000: Default Take
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -242,13 +241,13 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1

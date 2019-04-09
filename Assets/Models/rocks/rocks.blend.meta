@@ -1,25 +1,28 @@
 fileFormatVersion: 2
-guid: b5328f66ebd34cb4aa2fdf96d5ad7639
+guid: a6589a3d1d745ad4892d4ccecb653ef1
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Rocks
-    100004: wood
-    400000: //RootNode
-    400002: Rocks
-    400004: wood
-    2100000: rocks
-    2100002: wood
-    2300000: Rocks
-    2300002: wood
-    3300000: Rocks
-    3300002: wood
-    4300000: Rocks
-    4300002: wood
+    100000: Rock1
+    100002: Rock2
+    100004: Rock3
+    100006: //RootNode
+    400000: Rock1
+    400002: Rock2
+    400004: Rock3
+    400006: //RootNode
+    2100000: unnamed
+    2300000: Rock1
+    2300002: Rock2
+    2300004: Rock3
+    3300000: Rock1
+    3300002: Rock2
+    3300004: Rock3
+    4300000: Rock3
+    4300002: Rock2
+    4300004: Rock1
     7400000: Default Take
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -73,13 +76,13 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
