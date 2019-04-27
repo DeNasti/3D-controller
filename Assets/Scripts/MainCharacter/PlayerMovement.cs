@@ -6,9 +6,7 @@ using UnityEngine;
 [RequireComponent (typeof (Rigidbody))]
 public class PlayerMovement : MonoBehaviour {
 
-	public Transform cameraRig;
     public Animator animator;
-
 
     public float jumpForce = 3f;
 	public float moveSpeed = 4f;
@@ -16,21 +14,26 @@ public class PlayerMovement : MonoBehaviour {
     public float rotationSpeed = 10f;
     public float raycastDistanceForGround = 2;
 
+    private Transform cameraRig;
     private Rigidbody rb;
 	private Vector3 movementVector;
 	private Transform playerBody;
-	float hz;
-	float vrt;
+
     private bool _jump;
     private bool _isGrounded;
     private bool _isMovingHorizontally;
-    Vector3 rot;
-    float angle;
+
+    #region variables
+        float hz;
+        float vrt;
+        Vector3 rot;
+        float angle;
+    #endregion
 
     void Start ()
     {
 		rb = GetComponent<Rigidbody> ();
-        //	playerBody = transform.GetChild (0).GetComponent<Transform> ();
+        cameraRig = Camera.main.transform;
         playerBody = transform;
         _jump = false;
     }
@@ -40,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
 		hz = Input.GetAxisRaw ("Horizontal");
 		vrt = Input.GetAxisRaw ("Vertical");
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _isGrounded)
             _jump = true;
     }
 
@@ -108,10 +111,7 @@ public class PlayerMovement : MonoBehaviour {
         //JUMPING
         if (_jump)
         {
-            if (_isGrounded) // have to check if rigidbody is grounded
-            {
-                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             _jump = false;
         }
     }
